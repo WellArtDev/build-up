@@ -118,8 +118,8 @@ function getNavItems(role: UserRole, tenantId: number | null): NavItem[] {
     coach: [
       { href: '/dashboard/coach', label: 'Dasbor', icon: ICON_DASBOR, roles: ['coach'] },
       { href: `/dashboard/tenants/${tid}/students`, label: 'Siswa', icon: ICON_SISWA, roles: ['coach'] },
+      { href: `/dashboard/tenants/${tid}/schedules`, label: 'Jadwal & Absensi', icon: ICON_JADWAL, roles: ['coach'] },
       { href: `/dashboard/tenants/${tid}/assessments`, label: 'Penilaian', icon: ICON_PENILAIAN, roles: ['coach'] },
-      { href: `/dashboard/tenants/${tid}/schedules`, label: 'Jadwal', icon: ICON_JADWAL, roles: ['coach'] },
     ],
     parent: [
       { href: '/dashboard/parent', label: 'Dasbor', icon: ICON_PARENT, roles: ['parent'] },
