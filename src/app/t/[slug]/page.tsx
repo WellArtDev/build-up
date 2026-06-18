@@ -12,6 +12,7 @@ interface LandingData {
   studentCount: number; coachCount: number;
   settings: {
     landing_theme?: string;
+    logo_url?: string;
     landing_content?: {
       hero_title?: string;
       hero_subtitle?: string;
@@ -109,6 +110,12 @@ export default function TenantLandingPage() {
       <section className="relative overflow-hidden px-4 pt-20 pb-16 md:pt-32 md:pb-24">
         <div className="absolute inset-0 bg-gradient-to-b from-accent/5 to-transparent pointer-events-none" />
         <div className="max-w-4xl mx-auto text-center relative z-10">
+
+          {/* Logo */}
+          {data.settings?.logo_url && (
+            <img src={data.settings.logo_url} alt={data.name} className="h-20 md:h-24 mx-auto mb-6 object-contain" />
+          )}
+
           <span className="inline-block px-3 py-1 rounded-full text-xs font-medium bg-accent/10 text-accent border border-accent/20 mb-6">
             🏟️ {data.sport_type?.replace('_', ' ') || 'Olahraga'}
           </span>
@@ -163,14 +170,51 @@ export default function TenantLandingPage() {
       )}
 
       {/* ===== GALLERY ===== */}
-      {content.gallery && content.gallery.length > 0 && (
-        <section className="px-4 py-16 bg-surface/30">
-          <div className="max-w-5xl mx-auto">
-            <h2 className="font-playfair italic text-3xl md:text-4xl mb-10 text-center">Galeri</h2>
+      <section className="px-4 py-16 bg-surface/30">
+        <div className="max-w-5xl mx-auto">
+          <h2 className="font-playfair italic text-3xl md:text-4xl mb-10 text-center">🖼️ Galeri</h2>
+          {content.gallery && content.gallery.length > 0 ? (
             <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {content.gallery.map((img, i) => (
-                <div key={i} className="aspect-square rounded-xl overflow-hidden border border-border hover:scale-[1.02] transition-transform">
+                <div key={i} className="aspect-square rounded-xl overflow-hidden border border-border hover:scale-105 transition-transform shadow-lg">
                   <img src={img} alt={`Gallery ${i + 1}`} className="w-full h-full object-cover" loading="lazy" />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="text-center py-12 opacity-50">
+              <div className="text-5xl mb-3">📸</div>
+              <p className={`${mutedClass} text-sm`}>Galeri foto sedang dipersiapkan</p>
+              <p className={`${mutedClass} text-xs mt-1`}>Foto latihan, pertandingan, dan kegiatan akan ditampilkan di sini</p>
+            </div>
+          )}
+        </div>
+      </section>
+
+      {/* ===== COACH PROFILES ===== */}
+      {data.coaches && data.coaches.length > 0 && (
+        <section className="px-4 py-16">
+          <div className="max-w-5xl mx-auto">
+            <h2 className="font-playfair italic text-3xl md:text-4xl mb-10 text-center">🧑‍🏫 Tim Pelatih</h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+              {data.coaches.map((c, i) => (
+                <div key={i} className={`${cardClass} rounded-xl p-6 border hover:border-accent/30 transition-all flex gap-5`}>
+                  <div className="w-20 h-20 rounded-full bg-accent/10 flex items-center justify-center shrink-0 overflow-hidden border-2 border-accent/20">
+                    {c.avatar ? (
+                      <img src={c.avatar} alt={c.name} className="w-full h-full object-cover" />
+                    ) : (
+                      <span className="text-2xl font-bold text-accent">{c.name.charAt(0)}</span>
+                    )}
+                  </div>
+                  <div className="flex-1 min-w-0">
+                    <h4 className="text-white font-semibold text-lg">{c.name}</h4>
+                    <p className="text-accent text-xs font-medium mb-2">{c.specialization || 'Pelatih'}</p>
+                    <div className="flex flex-wrap gap-2 mb-2">
+                      <span className="text-xs bg-canvas rounded-full px-2.5 py-0.5 border border-border">{c.experience_years} tahun pengalaman</span>
+                      {c.license_number && <span className="text-xs bg-canvas rounded-full px-2.5 py-0.5 border border-border">Lisensi: {c.license_number}</span>}
+                    </div>
+                    {c.bio && <p className="text-xs opacity-60 line-clamp-2">{c.bio}</p>}
+                  </div>
                 </div>
               ))}
             </div>

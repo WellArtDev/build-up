@@ -44,7 +44,10 @@ export async function GET(
       success: true,
       data: {
         ...tenant,
-        settings: settings,
+        settings: {
+          ...settings,
+          logo_url: settings.logo_url || null,
+        },
         studentCount: studentCount?.c || 0,
         coachCount: coachCount?.c || 0,
         achievements,
