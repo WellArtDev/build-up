@@ -101,6 +101,7 @@ function getNavItems(role: UserRole, tenantId: number | null): NavItem[] {
       { href: `/dashboard/tenants/${tid}/tournaments`, label: 'Turnamen', icon: ICON_JADWAL, roles: ['academy_owner', 'academy_admin'] },
       { href: `/dashboard/tenants/${tid}/achievements`, label: 'Prestasi', icon: ICON_COACH, roles: ['academy_owner', 'academy_admin'] },
       { href: `/dashboard/tenants/${tid}/reports`, label: 'Laporan', icon: ICON_PENILAIAN, roles: ['academy_owner', 'academy_admin'] },
+      { href: `/dashboard/tenants/${tid}/landing`, label: 'Landing Page', icon: ICON_COACH, roles: ['academy_owner', 'academy_admin'] },
       { href: '/dashboard/settings', label: 'Pengaturan', icon: ICON_PENGATURAN, roles: ['academy_owner', 'academy_admin'] },
     ],
     academy_admin: [
@@ -114,6 +115,7 @@ function getNavItems(role: UserRole, tenantId: number | null): NavItem[] {
       { href: `/dashboard/tenants/${tid}/tournaments`, label: 'Turnamen', icon: ICON_JADWAL, roles: ['academy_owner', 'academy_admin'] },
       { href: `/dashboard/tenants/${tid}/achievements`, label: 'Prestasi', icon: ICON_COACH, roles: ['academy_owner', 'academy_admin'] },
       { href: `/dashboard/tenants/${tid}/reports`, label: 'Laporan', icon: ICON_PENILAIAN, roles: ['academy_owner', 'academy_admin'] },
+      { href: `/dashboard/tenants/${tid}/landing`, label: 'Landing Page', icon: ICON_COACH, roles: ['academy_owner', 'academy_admin'] },
       { href: '/dashboard/settings', label: 'Pengaturan', icon: ICON_PENGATURAN, roles: ['academy_owner', 'academy_admin'] },
     ],
     coach: [
