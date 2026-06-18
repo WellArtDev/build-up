@@ -86,6 +86,7 @@ function getNavItems(role: UserRole, tenantId: number | null): NavItem[] {
       { href: '/dashboard/super-admin/tenants', label: 'Tenant', icon: ICON_TENANT, roles: ['super_admin'] },
       { href: '/dashboard/super-admin/billing', label: 'Keuangan', icon: ICON_KEUANGAN, roles: ['super_admin'] },
       { href: '/dashboard/super-admin/payments', label: 'Payment Gateway', icon: ICON_KEUANGAN, roles: ['super_admin'] },
+      { href: '/dashboard/super-admin/database', label: 'Database', icon: ICON_PENGATURAN, roles: ['super_admin'] },
       { href: '/dashboard/super-admin/pricing', label: 'Harga & Fitur', icon: ICON_JADWAL, roles: ['super_admin'] },
       { href: '/dashboard/super-admin/settings', label: 'Pengaturan', icon: ICON_PENGATURAN, roles: ['super_admin'] },
     ],
