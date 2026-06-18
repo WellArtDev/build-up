@@ -24,6 +24,7 @@ interface LandingData {
   achievements: { title: string; description: string; rank_position: number; date_achieved: string }[];
   tournaments: { name: string; start_date: string; end_date: string; status: string }[];
   announcements: { title: string; content: string; created_at: string }[];
+  coaches: { name: string; avatar: string | null; specialization: string; experience_years: number; bio: string; license_number: string }[];
 }
 
 function Counter({ end, label }: { end: number; label: string }) {

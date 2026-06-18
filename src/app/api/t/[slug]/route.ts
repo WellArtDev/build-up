@@ -26,12 +26,18 @@ export async function GET(
 
     const settings = typeof tenant.settings === 'string' ? JSON.parse(tenant.settings) : (tenant.settings || {});
 
-    const [studentCount, coachCount, achievements, tournaments, announcements] = await Promise.all([
+    const [studentCount, coachCount, achievements, tournaments, announcements, coaches] = await Promise.all([
       queryOne<{ c: number }>('SELECT COUNT(*) as c FROM students WHERE tenant_id = ? AND status = ?', [tenant.id, 'active']),
       queryOne<{ c: number }>('SELECT COUNT(*) as c FROM coaches WHERE tenant_id = ?', [tenant.id]),
       query('SELECT title, description, rank_position, date_achieved FROM achievements WHERE tenant_id = ? ORDER BY date_achieved DESC LIMIT 6', [tenant.id]),
       query('SELECT name, start_date, end_date, status FROM tournaments WHERE tenant_id = ? ORDER BY start_date DESC LIMIT 6', [tenant.id]),
       query('SELECT title, content, created_at FROM announcements WHERE tenant_id = ? AND target_audience IN (?, ?) ORDER BY created_at DESC LIMIT 3', [tenant.id, 'all', 'students']),
+      query(
+        `SELECT u.name, u.avatar, c.specialization, c.experience_years, c.bio, c.license_number
+         FROM coaches c JOIN users u ON c.user_id = u.id
+         WHERE c.tenant_id = ? ORDER BY c.experience_years DESC`,
+        [tenant.id],
+      ),
     ]);
 
     return NextResponse.json({
@@ -44,6 +50,7 @@ export async function GET(
         achievements,
         tournaments,
         announcements,
+        coaches,
       },
     });
   } catch {

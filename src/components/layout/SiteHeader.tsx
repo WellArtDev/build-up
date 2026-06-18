@@ -19,8 +19,12 @@ export function SiteHeader() {
 
   const isAuthPage = pathname.startsWith('/auth/');
   const isDashboard = pathname.startsWith('/dashboard');
+  const isTenantLanding = pathname.startsWith('/t/');
 
   if (isAuthPage) return null;
+
+  // Tenant landing pages get a minimal header
+  if (isTenantLanding) return null;
 
   return (
     <header className="fixed top-0 left-0 right-0 z-50 bg-canvas/80 backdrop-blur-lg border-b border-border">

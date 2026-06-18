@@ -17,9 +17,15 @@ export function middleware(req: NextRequest) {
     const key = getRateLimitKey(req);
 
     let rateLimit: { maxRequests: number; windowMs: number } = RATE_LIMITS.API;
-    if (pathname.startsWith('/api/auth/')) rateLimit = RATE_LIMITS.AUTH;
-    else if (pathname.includes('/upload')) rateLimit = RATE_LIMITS.UPLOAD;
-    else rateLimit = RATE_LIMITS.API;
+    if (pathname === '/api/tenants/public' || pathname.startsWith('/api/t/')) {
+      rateLimit = RATE_LIMITS.PUBLIC;
+    } else if (pathname.startsWith('/api/auth/')) {
+      rateLimit = RATE_LIMITS.AUTH;
+    } else if (pathname.includes('/upload')) {
+      rateLimit = RATE_LIMITS.UPLOAD;
+    } else {
+      rateLimit = RATE_LIMITS.API;
+    }
 
     const result = checkRateLimit(key, rateLimit);
 
