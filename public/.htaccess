@@ -1,0 +1,9 @@
+RewriteEngine On
+
+# Proxy ALL requests to Node.js (handle Next.js static files + API + pages)
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteRule ^(.*)$ http://localhost:3000/$1 [P,L]
+
+# Also proxy existing files (/_next/static/...) — Next.js serves them
+RewriteCond %{REQUEST_FILENAME} -f
+RewriteRule ^(.*)$ http://localhost:3000/$1 [P,L]
