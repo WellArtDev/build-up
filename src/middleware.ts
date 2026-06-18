@@ -2,28 +2,24 @@ import { NextRequest, NextResponse } from 'next/server';
 import { securityHeaders } from '@/lib/security/headers';
 import { checkRateLimit, getRateLimitKey, RATE_LIMITS } from '@/lib/security/rateLimit';
 
-/**
- * Global API middleware: security headers + rate limiting.
- * Applied to /api/* routes via config matcher.
- */
 export function middleware(req: NextRequest) {
   const pathname = req.nextUrl.pathname;
   const response = NextResponse.next();
 
-  // Apply security headers to all API routes
+  // Security headers
   const headers = securityHeaders();
   for (const [key, value] of Object.entries(headers)) {
     response.headers.set(key, value);
   }
 
-  // Rate limiting for API routes
+  // Rate limiting
   if (pathname.startsWith('/api/')) {
     const key = getRateLimitKey(req);
 
-    // Pick rate limit based on endpoint
-    let rateLimit = RATE_LIMITS.API;
+    let rateLimit: { maxRequests: number; windowMs: number } = RATE_LIMITS.API;
     if (pathname.startsWith('/api/auth/')) rateLimit = RATE_LIMITS.AUTH;
-    if (pathname.includes('/upload')) rateLimit = RATE_LIMITS.UPLOAD;
+    else if (pathname.includes('/upload')) rateLimit = RATE_LIMITS.UPLOAD;
+    else rateLimit = RATE_LIMITS.API;
 
     const result = checkRateLimit(key, rateLimit);
 
