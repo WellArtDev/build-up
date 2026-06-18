@@ -2,14 +2,21 @@
 
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
+import dynamic from 'next/dynamic';
 import { CardSkeleton } from '@/components/ui/Skeleton';
 import { EmptyState } from '@/components/ui/EmptyState';
 import { useDebounce } from '@/hooks/useDebounce';
+
+const IndonesiaMap = dynamic(
+  () => import('@/components/maps/IndonesiaMap').then((m) => m.IndonesiaMap),
+  { ssr: false, loading: () => <div className="h-[400px] rounded-xl bg-surface animate-pulse" /> },
+);
 
 interface Academy {
   id: number; name: string; slug: string; sport_type: string;
   address: string; subscription_tier: string;
   student_count: number; coach_count: number;
+  lat: number; lng: number;
 }
 
 const SPORT_OPTIONS = [
@@ -41,7 +48,7 @@ export default function DiscoveryPage() {
       if (debouncedSearch) q.set('search', debouncedSearch);
       if (sport) q.set('sport', sport);
       if (debouncedLocation) q.set('location', debouncedLocation);
-      q.set('limit', '20');
+      q.set('limit', '50');
       const res = await fetch(`/api/tenants/public?${q}`);
       const data = await res.json();
       if (data.success) setAcademies(data.data);
@@ -52,7 +59,8 @@ export default function DiscoveryPage() {
 
   return (
     <div className="min-h-screen bg-canvas">
-      <section className="px-4 pt-24 pb-12 text-center bg-gradient-to-b from-accent/5 to-transparent">
+      {/* Hero */}
+      <section className="px-4 pt-24 pb-8 text-center bg-gradient-to-b from-accent/5 to-transparent">
         <h1 className="font-playfair italic text-4xl md:text-5xl text-white mb-3">Temukan Akademi Impian</h1>
         <p className="text-text-secondary text-lg mb-8">Cari akademi olahraga grassroots terbaik di kotamu</p>
         <div className="max-w-2xl mx-auto flex flex-col sm:flex-row gap-3">
@@ -64,6 +72,12 @@ export default function DiscoveryPage() {
         </div>
       </section>
 
+      {/* Map */}
+      <section className="max-w-fluid-xl mx-auto px-4 mb-8">
+        <IndonesiaMap academies={academies} />
+      </section>
+
+      {/* Results */}
       <section className="max-w-fluid-xl mx-auto px-4 pb-20">
         {loading ? (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">{Array.from({length:6}).map((_,i)=><CardSkeleton key={i}/>)}</div>
@@ -83,7 +97,7 @@ export default function DiscoveryPage() {
                   </div>
                   <span className="badge badge-info text-[10px] capitalize">{a.subscription_tier}</span>
                 </div>
-                <p className="text-text-secondary text-xs mb-3">📍 {a.address || 'Alamat belum diset'}</p>
+                <p className="text-text-secondary text-xs mb-3">📍 {a.address || '-'}</p>
                 <div className="flex gap-4 mb-3 text-xs text-text-secondary/70">
                   <span>👥 {a.student_count} siswa</span>
                   <span>🧑‍🏫 {a.coach_count} pelatih</span>
