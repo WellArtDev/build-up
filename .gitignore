@@ -1,0 +1,11 @@
+# .gitignore
+node_modules/
+.next/
+.env.local
+.env
+out/
+public/uploads/
+*.log
+.DS_Store
+.claude/
+.omc/
