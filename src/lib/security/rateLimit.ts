@@ -55,8 +55,8 @@ export function getRateLimitKey(req: Request, prefix = 'rl'): string {
  * Rate limit presets for different endpoint types.
  */
 export const RATE_LIMITS = {
-  AUTH: { maxRequests: 5, windowMs: 60000 },        // 5 login attempts per minute
-  API: { maxRequests: 30, windowMs: 60000 },         // 30 API calls per minute
-  UPLOAD: { maxRequests: 10, windowMs: 60000 },       // 10 uploads per minute
-  PUBLIC: { maxRequests: 60, windowMs: 60000 },       // 60 public requests per minute
+  AUTH: { maxRequests: 20, windowMs: 60000 },         // 20 auth attempts per minute
+  API: { maxRequests: 100, windowMs: 60000 },         // 100 API calls per minute
+  UPLOAD: { maxRequests: 20, windowMs: 60000 },       // 20 uploads per minute
+  PUBLIC: { maxRequests: 120, windowMs: 60000 },      // 120 public requests per minute
 } as const;
